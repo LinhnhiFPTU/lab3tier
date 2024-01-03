@@ -5,10 +5,7 @@ import { LoadData, addData, deleteData } from './app-services/services';
 function App() {
   const [allTodos, setAllTodos] = useState([]);
   const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
   const [isCompletedScreen, setIsCompletedScreen] = useState(false);
-
-
 
   useEffect(() => {
     fetchData();
@@ -19,11 +16,10 @@ function App() {
       setAllTodos(data.data);
       console.log(data.data)
     }
-
   }
 
   const handleAddData = async () => {
-    await addData(newTodoTitle, newDescription);
+    await addData(newTodoTitle);
     await fetchData();
   }
 
@@ -48,15 +44,7 @@ function App() {
               placeholder="What's the title of your To Do?"
             />
           </div>
-          <div className="todo-input-item">
-            <label>Description:</label>
-            <input
-              type="text"
-              value={newDescription}
-              onChange={e => setNewDescription(e.target.value)}
-              placeholder="What's the description of your To Do?"
-            />
-          </div>
+          
           <div className="todo-input-item">
             <button
               className="primary-btn"
@@ -67,23 +55,14 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="btn-area">
-          <button
-            className={`secondaryBtn ${isCompletedScreen === false && 'active'}`}
-            onClick={() => setIsCompletedScreen(false)}
-          >
-            To Do
-          </button>
-        </div>
+        
         <div className="todo-list">
 
           {isCompletedScreen === false &&
             allTodos.map((item, index) => (
               <div className="todo-list-item" key={index}>
                 <div>
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-
+                  <h3>{item.content}</h3>
                 </div>
                 <div>
                   <AiOutlineDelete
@@ -95,22 +74,6 @@ function App() {
               </div>
             ))}
 
-          {/* {isCompletedScreen === true &&
-            completedTodos.map((item, index) => (
-              <div className="todo-list-item" key={index}>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <p> <i>Completed at: {item.completedOn}</i></p>
-                </div>
-                <div>
-                  <AiOutlineDelete
-                    className="icon"
-                    onClick={() => handleDeleteCompleted(index)}
-                  />
-                </div>
-              </div>
-            ))} */}
         </div>
       </div>
     </div>
